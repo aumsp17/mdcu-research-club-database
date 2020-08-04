@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutAlign="center center" style="height: 100%;width: 100%;">
+  <img src="assets/images/logo-text.png" style="min-height:25vh;min-width:25vw;max-height:80vh;max-width: 100%;" />
+  <div *ngIf="auth.user$ | async; then authenticated else login"></div>
+</div>
+
+<ng-template #login>
+  <button *ngIf="auth.loaded" mat-raised-button (click)="auth.googleSignin()" style="width:25vw;height:3em;margin-bottom:3em;background-color:#D81B60;color:white">LOGIN</button>
+  <button *ngIf="!auth.loaded" mat-raised-button style="width:25vw;height:3em;margin-bottom:3em;background-color:#D81B60;color:white" disabled fxLayoutAlign="center center">
+    <mat-spinner [diameter]="25" class="mat-spinner-color"></mat-spinner>
+  </button>
+</ng-template>
+<ng-template #authenticated>
+  <button mat-raised-button [routerLink]="['/']" style="width:25vw;height:3em;margin-bottom:3em;background-color:#D81B60;color:white">PROCEED</button>
+</ng-template>

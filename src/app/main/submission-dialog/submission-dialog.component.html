@@ -1,0 +1,45 @@
+
+<div mat-dialog-content fxLayout="column" fxLayoutAlign=" center" style="min-height: 100%;">
+    
+    <span class="mat-headline">{{ progress.label }}</span>
+    <div *ngIf="progress.status !== 'error'">
+        <mat-spinner diameter="36"></mat-spinner>
+    </div>
+      
+    <mat-list *ngIf="progress.status === 'file'" style="width: 100%">
+        <mat-list-item *ngFor="let file of data.files">
+            <mat-icon mat-list-icon>
+                <ng-container [ngSwitch]="file.type.split('/')[0]">
+                    <div *ngSwitchCase="'text'">text_snippet</div>
+                    <div *ngSwitchCase="'audio'">audiotrack</div>
+                    <div *ngSwitchCase="'video'">video_label</div>
+                    <div *ngSwitchCase="'image'">image</div>
+                    <div *ngSwitchDefault>insert_drive_file</div>
+                </ng-container>
+            </mat-icon>
+            <div mat-line>{{ file.name }}</div>
+            <app-upload-task mat-line [entryID]="entryID" [file]="file" [controllable]="false"></app-upload-task>
+        </mat-list-item>
+    </mat-list>
+
+    <mat-list *ngIf="progress.status === 'image'" style="width: 100%">
+        <mat-list-item>
+            <mat-icon>image</mat-icon>
+            <div mat-line>{{ this.data.image.item(0).name }}</div>
+            <div mat-line>
+                <div *ngIf="imgPercentage | async as pct">
+                    <mat-progress-bar mode="determinate" [value]="pct"></mat-progress-bar>
+                    {{ pct | number }}%
+                </div>
+                <div *ngIf="imgSnapshot | async as snap">
+                    {{ snap.bytesTransferred }} of {{ snap.totalBytes }} bytes
+                </div>
+            </div>
+        </mat-list-item>
+    </mat-list>
+
+    <div *ngIf="progress.status === 'error'">
+        <span>{{ progress.error }}</span>
+        <button mat-raised-button *ngFor="let option of errorOptions" [color]="option.color" (click)="errorButtonClicked(option.action)">{{ option.label }}</button>
+    </div>
+</div>

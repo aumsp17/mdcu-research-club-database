@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+    
+    .mat-row:hover {
+        cursor: pointer;
+        background: #b4b4b433;
+    }
+}
+div {
+    .view-wrapper {
+        border-radius: 4px;
+        border: 1px solid rgba(0,0,0,.2);
+        padding: 8px
+    }
+}
