@@ -16,7 +16,7 @@
         </mat-form-field>
     
         <div class="mat-elevation-z8">
-            <table mat-table #entriesTable [dataSource]="dataSource" matSort>
+            <table mat-table #entriesTable [dataSource]="dataSource" matSort matSortActive="lastUpdated" matSortDirection="desc">
     
                 <ng-container matColumnDef="filter">
                     <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length" style="height:auto">

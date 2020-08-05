@@ -154,6 +154,7 @@ export class EntriesComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource = new MatTableDataSource(entries);
       this.dataSource.sort = this.sort;
       this.dataSource.filterPredicate = this.dataSourcePredicate;
+      this.dataSource.paginator = this.paginator;
     })
   }
 
