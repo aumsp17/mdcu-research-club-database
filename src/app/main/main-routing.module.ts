@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '../auth.guard';
+import { EditGuard } from '../edit.guard';
 import { EntryKeyResolverService } from '../shared/entry-key-resolver.service';
 import { EntryResolverService } from '../shared/entry-resolver.service';
 import { EntryAuthorResolverService } from '../shared/entry-author-resolver.service';
@@ -37,7 +38,8 @@ const routes: Routes = [
           entry: EntryResolverService,
           entryKey: EntryKeyResolverService,
           isAuthor: EntryAuthorResolverService
-        }
+        },
+        canDeactivate: [EditGuard]
       }
     ]
   }

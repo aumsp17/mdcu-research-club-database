@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormArray, ValidatorFn, AsyncValidatorFn, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, AsyncValidatorFn, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap, take, first, tap } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -10,7 +10,6 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { EntryService } from '../../core/entry.service';
 import { UploaderComponent } from 'src/app/shared/uploader/uploader.component';
-import { SubmissionDialogComponent } from '../submission-dialog/submission-dialog.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Entry, FileUrl, ImageUrl } from 'src/app/shared/entry';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -31,6 +30,11 @@ export class EntryComponent implements OnInit, OnDestroy {
   entry: Entry;
 
   isEditing = false;
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    return this.isEditing ? false : true
+  }
 
   @ViewChild('uploader') uploader: UploaderComponent;
   @ViewChild('imgInput', { static: false }) imgInput: ElementRef<HTMLInputElement>;
