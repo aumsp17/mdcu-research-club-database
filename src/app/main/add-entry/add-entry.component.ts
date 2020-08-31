@@ -77,7 +77,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     });
 
     this.reader = new FileReader();
-    this.reader.onload = (_event) => { 
+    this.reader.onload = (_event) => {
       this.imgURL = _event.target.result as string;
     }
   }
@@ -279,7 +279,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
         this.submitForm();
       });
-      
+
       this.subscriptions.push(snackbarSubscription);
     }
 
@@ -292,7 +292,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       if (mimeType.match(/image\/*/) == null) {
         return;
       } else {
-        this.reader.readAsDataURL(files[0]); 
+        this.reader.readAsDataURL(files[0]);
       }
     }
     return;

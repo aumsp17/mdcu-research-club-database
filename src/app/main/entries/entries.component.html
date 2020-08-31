@@ -15,10 +15,10 @@
                 <mat-option value="rehabilitation medicine">Rehabilitation Medicine</mat-option>
             </mat-select>
         </mat-form-field>
-    
+
         <div class="mat-elevation-z8">
             <table mat-table #entriesTable [dataSource]="dataSource" matSort matSortActive="lastUpdated" matSortDirection="desc">
-    
+
                 <ng-container matColumnDef="filter">
                     <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length" style="height:auto">
                         <div fxLayout="column" fxLayoutGap="16px" >
@@ -30,37 +30,37 @@
                             </button>
                             <mat-expansion-panel [expanded]="showFilter" hideToggle class="mat-elevation-z0">
                                 <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="16px" fxLayoutGap="8px" fxLayoutAlign="center center">
-                                
+
                                     <mat-slide-toggle formControlName="isAuthor" ngStyle.gt-sm="padding-bottom: 1.34375em;">Editable</mat-slide-toggle>
-    
+
                                     <mat-form-field appearance="fill">
                                         <mat-label>From</mat-label>
                                         <input matInput formControlName="start" [matDatepicker]="fromPicker">
                                         <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                                         <mat-datepicker #fromPicker></mat-datepicker>
                                     </mat-form-field>
-        
+
                                     <mat-form-field appearance="fill">
                                         <mat-label>To</mat-label>
                                         <input matInput formControlName="end" [matDatepicker]="toPicker">
                                         <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                                         <mat-datepicker #toPicker></mat-datepicker>
                                     </mat-form-field>
-    
+
                                     <div ngStyle.gt-sm="padding-bottom: 1.34375em;">
                                         <button mat-raised-button color="accent" (click)="resetFilter()">
                                             <mat-icon>settings_backup_restore</mat-icon>
                                             Reset
                                         </button>
                                     </div>
-    
+
                                 </div>
                             </mat-expansion-panel>
                         </div>
                     </th>
                 </ng-container>
-        
-    
+
+
                 <ng-container matColumnDef="titleSearch">
                     <th mat-header-cell *matHeaderCellDef style="max-width: 100px">
                         <mat-form-field style="width: 90%">
@@ -73,13 +73,13 @@
                         </mat-form-field>
                     </th>
                 </ng-container>
-    
+
                 <ng-container matColumnDef="title">
                     <th mat-header-cell *matHeaderCellDef> Title </th>
                     <td mat-cell *matCellDef="let entry"> {{ entry.titles }} </td>
                 </ng-container>
-        
-    
+
+
                 <ng-container matColumnDef="positionSearch">
                     <th mat-header-cell *matHeaderCellDef style="max-width: 140px">
                         <mat-form-field style="width: 90%">
@@ -95,13 +95,13 @@
                         </mat-form-field>
                     </th>
                 </ng-container>
-    
+
                 <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Position </th>
                     <td mat-cell *matCellDef="let entry"> {{ entry.position }} </td>
                 </ng-container>
-                
-    
+
+
                 <ng-container matColumnDef="fullNameENSearch">
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-form-field style="width: 90%">
@@ -110,13 +110,13 @@
                         </mat-form-field>
                     </th>
                 </ng-container>
-    
+
                 <ng-container matColumnDef="fullNameEN">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Full name (English) </th>
                     <td mat-cell *matCellDef="let entry"> {{ entry.fullNameEN }} </td>
                 </ng-container>
-                
-    
+
+
                 <ng-container matColumnDef="fullNameTHSearch">
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-form-field style="width: 90%">
@@ -125,13 +125,13 @@
                         </mat-form-field>
                     </th>
                 </ng-container>
-    
+
                 <ng-container matColumnDef="fullNameTH">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Full name (Thai) </th>
                     <td mat-cell *matCellDef="let entry"> {{ entry.fullNameTH }} </td>
                 </ng-container>
-    
-    
+
+
                 <ng-container matColumnDef="keywordsSearch">
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-form-field style="width: 90%">
@@ -149,7 +149,7 @@
                         </mat-form-field>
                     </th>
                 </ng-container>
-                
+
                 <ng-container matColumnDef="keywords">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Keywords </th>
                     <td mat-cell *matCellDef="let entry">
@@ -160,7 +160,7 @@
                         </mat-chip-list>
                     </td>
                 </ng-container>
-                        
+
 
                 <ng-container matColumnDef="reset">
                     <th mat-header-cell *matHeaderCellDef>
@@ -175,15 +175,15 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Last updated </th>
                     <td mat-cell *matCellDef="let entry"> {{ entry.lastUpdated.toDate() | date: 'dd MMM yy, HH:mm' }} </td>
                 </ng-container>
-                
+
                 <tr mat-header-row *matHeaderRowDef="['filter']"></tr>
                 <tr mat-header-row *matHeaderRowDef="displayedSearchColumns"></tr>
-    
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseup)="rowClicked(row.$id)"></tr>
-    
+
             </table>
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons style="width:100%"></mat-paginator>
         </div>
-    </div>    
+    </div>
 </form>

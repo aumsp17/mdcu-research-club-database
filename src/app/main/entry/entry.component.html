@@ -1,5 +1,5 @@
 <form [formGroup]="entryFormGroup" fxLayout="column" fxLayoutGap="3em">
-    
+
     <div fxLayout="column" fxLayoutGap="16px">
         <div *ngIf="isEditing; else notEditing" fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" style="margin-bottom: 16px;">
             <button mat-raised-button color="warn" fxFlex="grow" (click)="cancelEdit()">
@@ -46,7 +46,7 @@
                             <mat-error>Required</mat-error>
                         </mat-form-field>
                     </div>
-                    
+
                     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="16px" fxFlex="grow">
                         <mat-form-field fxFlex.gt-xs="50">
                             <mat-label>Full Name (Thai)</mat-label>
@@ -94,7 +94,7 @@
             <mat-card-content>
                 <span class="mat-headline">Credentials</span>
                 <div fxLayout="column" fxLayoutGap="16px">
-                    
+
                     <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign.gt-xs=" start">
                         <mat-card fxFlex="grow">
                             <mat-card-title-group>
@@ -130,7 +130,7 @@
                                 </button>
                             </mat-card-actions>
                         </mat-card>
-    
+
                         <mat-card fxFlex="grow">
                             <mat-card-title-group>
                                 <mat-card-title>
@@ -155,7 +155,7 @@
                         </mat-card>
                     </div>
 
-        
+
                     <mat-card>
                         <mat-card-title-group>
                             <mat-card-title>
@@ -236,7 +236,7 @@
                                 </button>
                             </mat-card-actions>
                         </mat-card>
-                        
+
                         <mat-card fxFlex="grow">
                             <mat-card-title-group>
                                 <mat-card-title>
@@ -277,7 +277,7 @@
                             </mat-card-actions>
                         </mat-card>
                     </div>
-                    
+
                 </div>
             </mat-card-content>
         </mat-card>
@@ -288,7 +288,7 @@
             <mat-card-content>
                 <span class="mat-headline">Contacts</span>
                 <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign.gt-xs=" start">
-        
+
                     <mat-card fxFlex="grow">
                         <mat-card-title-group>
                             <mat-card-title>
@@ -312,7 +312,7 @@
                             </mat-form-field>
                         </mat-card-content>
                     </mat-card>
-        
+
                     <mat-card fxFlex="grow">
                         <mat-card-title-group>
                             <mat-card-title>
@@ -345,29 +345,29 @@
         <mat-card>
             <mat-card-content>
                 <span class="mat-headline">Additional Data</span>
-                
+
                 <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign.gt-xs=" start">
                     <mat-card fxFlex="grow">
                         <mat-card-title-group>
                             <mat-card-title>Files</mat-card-title>
                         </mat-card-title-group>
                         <mat-card-content fxLayout="column" fxLayoutGap="16px">
-                            
+
 
                             <div *ngIf="isEditing" fxLayout="column" fxLayoutGap="16px">
                                 <mat-divider></mat-divider>
                                 <span class="mat-title">Upload new files</span>
                                 <app-uploader *ngIf="isEditing" #uploader [upload]="true" [entryID]="entryKey$ | async" (uploadCompleted)="uploadCompleted($event)"></app-uploader>
                             </div>
-                            
+
                             <div *ngIf="(fileUrls$ | async)?.length > 0" fxLayout="column" fxLayoutGap="16px">
                                 <mat-divider></mat-divider>
                                 <span class="mat-title">Uploaded files</span>
                                 <button mat-raised-button color="warn" [disabled]="selection.selected.length == 0" *ngIf="isEditing" (click)="deleteFile()">
                                     <mat-icon>delete</mat-icon>
-                                    Delete 
+                                    Delete
                                     <span *ngIf="selection.selected.length == 1"> file</span>
-                                    <span *ngIf="selection.selected.length > 1 && !isAllSelected()"> {{selection.selected.length}} files</span> 
+                                    <span *ngIf="selection.selected.length > 1 && !isAllSelected()"> {{selection.selected.length}} files</span>
                                     <span *ngIf="selection.selected.length > 1 && isAllSelected()"> all files</span>
                                 </button>
 
@@ -389,7 +389,7 @@
                                             </mat-checkbox>
                                           </td>
                                     </ng-container>
-    
+
                                     <ng-container matColumnDef="title">
                                         <th mat-header-cell *matHeaderCellDef style="max-width: 80vw"> Title </th>
                                         <td mat-cell *matCellDef="let file" style="max-width: 80vw">
@@ -404,12 +404,12 @@
                                                     </ng-container>
                                                 </mat-icon>
                                                 <span>{{ file.title }}</span>
-    
+
                                             </div>
-    
+
                                         </td>
                                     </ng-container>
-    
+
                                     <ng-container matColumnDef="view">
                                         <th mat-header-cell *matHeaderCellDef> View </th>
                                         <td mat-cell *matCellDef="let file">
@@ -418,11 +418,11 @@
                                             </a>
                                         </td>
                                     </ng-container>
-    
+
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;">
                                     </tr>
-    
+
                                 </table>
                             </div>
 
@@ -494,7 +494,7 @@
 
                             </mat-card-content>
                         </mat-card>
-        
+
                         <mat-card fxFlex="grow">
                             <mat-card-title-group>
                                 <mat-card-title>

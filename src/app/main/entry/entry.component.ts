@@ -70,7 +70,7 @@ export class EntryComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) { }
-  
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
@@ -124,7 +124,7 @@ export class EntryComponent implements OnInit, OnDestroy {
     this.subscriptions.push(fileUrlsSubscription);
 
     this.reader = new FileReader();
-    this.reader.onload = (_event) => { 
+    this.reader.onload = (_event) => {
       this.imgURL = _event.target.result as string;
     }
   }
@@ -188,7 +188,7 @@ export class EntryComponent implements OnInit, OnDestroy {
           ]
         }
       })
-  
+
       dialogRef.afterClosed().subscribe(confirmed => {
         if (confirmed) {
           this.entryKey$.subscribe(key => {
@@ -457,7 +457,7 @@ export class EntryComponent implements OnInit, OnDestroy {
       if (mimeType.match(/image\/*/) == null) {
         return;
       } else {
-        this.reader.readAsDataURL(files[0]); 
+        this.reader.readAsDataURL(files[0]);
       }
     }
     return;
