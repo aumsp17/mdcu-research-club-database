@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "production": "mdcu-research-club-database",
+    "default": "mdcu-research-club-database"
+  }
+}

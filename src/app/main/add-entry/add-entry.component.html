@@ -1,0 +1,440 @@
+<form [formGroup]="entryFormGroup" fxLayout="column" fxLayoutGap="3em">
+    <div fxLayout="column" fxLayoutGap="16px">
+        
+        <mat-card>
+            <mat-card-content>
+                <span class="mat-headline">Basic Info</span>
+                <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap.gt-xs="16px">
+
+                    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="16px" fxFlex="grow">
+                        <mat-form-field fxFlex.gt-xs="50">
+                            <mat-label>Title</mat-label>
+                            <mat-select formControlName="titles" multiple>
+                                <mat-option value="ดร.">ดร.</mat-option>
+                                <mat-option value="นพ." #male>นพ.</mat-option>
+                                <mat-option value="พญ." #female>พญ.</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="entryFormGroup.controls['titles'].errors?.gender && (entryFormGroup.touched || entryFormGroup.dirty)">Gender conflict</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex.gt-xs="50">
+                            <mat-label>Position</mat-label>
+                            <mat-select formControlName="position" required>
+                                <mat-option value="อ.">อาจารย์</mat-option>
+                                <mat-option value="ผศ.">ผู้ช่วยศาสตราจารย์</mat-option>
+                                <mat-option value="รศ.">รองศาสตราจารย์</mat-option>
+                                <mat-option value="ศ.">ศาสตราจารย์</mat-option>
+                                <mat-option value="ศ. กิตติคุณ">ศาสตราจารย์กิตติคุณ</mat-option>
+                            </mat-select>
+                            <mat-error>Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="16px" fxFlex="grow">
+                        <mat-form-field fxFlex.gt-xs="50">
+                            <mat-label>Full Name (Thai)</mat-label>
+                            <input matInput formControlName="fullNameTH" required>
+                            <mat-error *ngIf="entryFormGroup.controls['fullNameTH'].errors?.required && (entryFormGroup.touched || entryFormGroup.dirty)">Required</mat-error>
+                            <mat-error *ngIf="entryFormGroup.controls['fullNameTH'].errors?.entryExists && (entryFormGroup.touched || entryFormGroup.dirty)">Entry with this name already exists</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex.gt-xs="50">
+                            <mat-label>Full Name (English)</mat-label>
+                            <input matInput formControlName="fullNameEN" required>
+                            <mat-error *ngIf="entryFormGroup.controls['fullNameEN'].errors?.required && (entryFormGroup.touched || entryFormGroup.dirty)">Required</mat-error>
+                            <mat-error *ngIf="entryFormGroup.controls['fullNameEN'].errors?.entryExists && (entryFormGroup.touched || entryFormGroup.dirty)">Entry with this name already exists</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="16px" fxFlex="grow">
+                        <mat-form-field fxFlex.gt-xs="50">
+                            <mat-label>Department</mat-label>
+                            <mat-select formControlName="department" required>
+                                <mat-option value="biochemistry">Biochemistry</mat-option>
+                                <mat-option value="medicine">Medicine</mat-option>
+                                <mat-option value="microbiology">Microbiology</mat-option>
+                                <mat-option value="otorhinolaryngology">Otorhinolaryngology (ENT)</mat-option>
+                                <mat-option value="parasitology">Parasitology</mat-option>
+                                <mat-option value="pharmacology">Pharmacology</mat-option>
+                                <mat-option value="physiology">Physiology</mat-option>
+                                <mat-option value="preventive and social medicine">Preventive and Social Medicine</mat-option>
+                                <mat-option value="radiology">Radiology</mat-option>
+                                <mat-option value="rehabilitation medicine">Rehabilitation Medicine</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex.gt-xs="50">
+                            <mat-label>Division</mat-label>
+                            <input matInput formControlName="division">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-divider></mat-divider>
+
+        <mat-card>
+            <mat-card-content>
+                <span class="mat-headline">Credentials</span>
+                <div fxLayout="column" fxLayoutGap="16px">
+                    
+                    <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign.gt-xs=" start">
+                        <mat-card fxFlex="grow">
+                            <mat-card-title-group>
+                                <mat-card-title>
+                                    Ongoing Projects
+                                    <button *ngIf="entryFormGroup.controls['projects'].value.length == 0" mat-button (click)="addControl('projects')">
+                                        <mat-icon>note_add</mat-icon>
+                                        Add Project
+                                    </button>
+                                </mat-card-title>
+                            </mat-card-title-group>
+                            <mat-card-content formArrayName="projects" fxLayout="column" fxLayoutGap="16px">
+                                <mat-card *ngFor="let project of projects.controls; let i=index">
+                                    <mat-card-content>
+                                        <mat-form-field fxFlex="grow">
+                                            <mat-label>Project</mat-label>
+                                            <textarea matInput [formControlName]="i" required></textarea>
+                                            <mat-error>Required</mat-error>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                    <mat-card-actions>
+                                        <button mat-button (click)="projects.removeAt(i)">
+                                            <mat-icon>delete</mat-icon>
+                                            Remove
+                                        </button>
+                                    </mat-card-actions>
+                                </mat-card>
+                            </mat-card-content>
+                            <mat-card-actions *ngIf="entryFormGroup.controls['projects'].value.length > 0">
+                                <button mat-button (click)="addControl('projects')">
+                                    <mat-icon>note_add</mat-icon>
+                                    Add Project
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+    
+                        <mat-card fxFlex="grow">
+                            <mat-card-title-group>
+                                <mat-card-title>
+                                    Keywords
+                                </mat-card-title>
+                            </mat-card-title-group>
+                            <mat-card-content>
+                                <mat-form-field fxFlex="grow">
+                                    <mat-chip-list #chipKeywords>
+                                        <mat-chip *ngFor="let keyword of keywords.value" removable (removed)="remove(keyword, 'keywords')">
+                                            {{ keyword }}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                        <input placeholder="Add keyword..."
+                                            [matChipInputFor]="chipKeywords"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            (matChipInputTokenEnd)="add($event, 'keywords')">
+                                    </mat-chip-list>
+                                    <mat-hint>Use 'ENTER' or 'COMMA' key to add keyword</mat-hint>
+                                </mat-form-field>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+        
+                    <mat-card>
+                        <mat-card-title-group>
+                            <mat-card-title>
+                                Education
+                                <button *ngIf="entryFormGroup.controls['educations'].value.length == 0" mat-button (click)="addControl('educations')">
+                                    <mat-icon>note_add</mat-icon>
+                                    Add Education
+                                </button>
+                            </mat-card-title>
+                        </mat-card-title-group>
+                        <mat-card-content formArrayName="educations" fxLayout="column" fxLayoutGap="16px">
+                            <mat-card *ngFor="let group of educations.controls; let i=index">
+                                <mat-card-content [formGroupName]="i" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap.gt-xs="16px">
+                                    <mat-form-field fxFlex="grow">
+                                        <mat-label>Certification</mat-label>
+                                        <input matInput formControlName="certification" required>
+                                        <mat-error>Required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field fxFlex="grow">
+                                        <mat-label>Place of Issue</mat-label>
+                                        <input matInput formControlName="place" required>
+                                        <mat-error>Required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field fxFlex="grow">
+                                        <mat-label>Year (ค.ศ.)</mat-label>
+                                        <input type="number" matInput formControlName="year" required>
+                                        <mat-error>Required</mat-error>
+                                    </mat-form-field>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button (click)="educations.removeAt(i)">
+                                        <mat-icon>delete</mat-icon>
+                                        Remove
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </mat-card-content>
+                        <mat-card-actions *ngIf="entryFormGroup.controls['educations'].value.length > 0">
+                            <button mat-button (click)="addControl('educations')">
+                                <mat-icon>note_add</mat-icon>
+                                Add Education
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+
+                    <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign.gt-xs=" start">
+                        <mat-card fxFlex="grow">
+                            <mat-card-title-group>
+                                <mat-card-title>
+                                    Publications
+                                    <button *ngIf="entryFormGroup.controls['publications'].value.length == 0" mat-button (click)="addControl('publications')">
+                                        <mat-icon>note_add</mat-icon>
+                                        Add Publication
+                                    </button>
+                                </mat-card-title>
+                            </mat-card-title-group>
+                            <mat-card-content formArrayName="publications" fxLayout="column" fxLayoutGap="16px">
+                                <mat-card *ngFor="let publication of publications.controls; let i=index">
+                                    <mat-card-content>
+                                        <mat-form-field fxFlex="grow">
+                                            <mat-label>Publication</mat-label>
+                                            <textarea matInput [formControlName]="i" required></textarea>
+                                            <mat-error>Required</mat-error>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                    <mat-card-actions>
+                                        <button mat-button (click)="publications.removeAt(i)">
+                                            <mat-icon>delete</mat-icon>
+                                            Remove
+                                        </button>
+                                    </mat-card-actions>
+                                </mat-card>
+                            </mat-card-content>
+                            <mat-card-actions *ngIf="entryFormGroup.controls['publications'].value.length > 0">
+                                <button mat-button (click)="addControl('publications')">
+                                    <mat-icon>note_add</mat-icon>
+                                    Add Publication
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                        
+                        <mat-card fxFlex="grow">
+                            <mat-card-title-group>
+                                <mat-card-title>
+                                    Awards
+                                    <button *ngIf="entryFormGroup.controls['awards'].value.length == 0" mat-button (click)="addControl('awards')">
+                                        <mat-icon>note_add</mat-icon>
+                                        Add Award
+                                    </button>
+                                </mat-card-title>
+                            </mat-card-title-group>
+                            <mat-card-content formArrayName="awards" fxLayout="column" fxLayoutGap="16px">
+                                <mat-card *ngFor="let group of awards.controls; let i=index">
+                                    <mat-card-content [formGroupName]="i" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap.gt-xs="16px">
+                                        <mat-form-field fxFlex="grow">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput formControlName="name" required>
+                                            <mat-error>Required</mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field fxFlex="grow">
+                                            <mat-label>Year (ค.ศ.)</mat-label>
+                                            <input type="number" matInput formControlName="year" required>
+                                            <mat-error>Required</mat-error>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                    <mat-card-actions>
+                                        <button mat-button (click)="awards.removeAt(i)">
+                                            <mat-icon>delete</mat-icon>
+                                            Remove
+                                        </button>
+                                    </mat-card-actions>
+                                </mat-card>
+                            </mat-card-content>
+                            <mat-card-actions *ngIf="entryFormGroup.controls['awards'].value.length > 0">
+                                <button mat-button (click)="addControl('awards')">
+                                    <mat-icon>note_add</mat-icon>
+                                    Add Award
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                    
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-divider></mat-divider>
+
+        <mat-card>
+            <mat-card-content>
+                <span class="mat-headline">Contacts</span>
+                <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign.gt-xs=" start">
+        
+                    <mat-card fxFlex="grow">
+                        <mat-card-title-group>
+                            <mat-card-title>
+                                Email
+                            </mat-card-title>
+                        </mat-card-title-group>
+                        <mat-card-content>
+                            <mat-form-field fxFlex="grow">
+                                <mat-chip-list #chipEmails>
+                                    <mat-chip *ngFor="let email of emails.value" removable (removed)="remove(email, 'emails')">
+                                        {{ email }}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Add email..."
+                                        type="email"
+                                        [matChipInputFor]="chipEmails"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                        (matChipInputTokenEnd)="add($event, 'emails')">
+                                </mat-chip-list>
+                                <mat-hint>Use 'ENTER' or 'COMMA' key to add email</mat-hint>
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+        
+                    <mat-card fxFlex="grow">
+                        <mat-card-title-group>
+                            <mat-card-title>
+                                Phone Number
+                            </mat-card-title>
+                        </mat-card-title-group>
+                        <mat-card-content>
+                            <mat-form-field fxFlex="grow">
+                                <mat-chip-list #chipPhoneNumbers>
+                                    <mat-chip *ngFor="let phoneNumber of phoneNumbers.value" removable (removed)="remove(phoneNumber, 'phoneNumbers')">
+                                        {{ phoneNumber }}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Add phone number..."
+                                        type="tel"
+                                        [matChipInputFor]="chipPhoneNumbers"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                        (matChipInputTokenEnd)="add($event, 'phoneNumbers')">
+                                </mat-chip-list>
+                                <mat-hint>Use 'ENTER' or 'COMMA' key to add phone number</mat-hint>
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-divider></mat-divider>
+
+        <mat-card>
+            <mat-card-content>
+                <span class="mat-headline">Additional Data</span>
+                
+                <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign.gt-xs=" start">
+                    <mat-card fxFlex="grow">
+                        <mat-card-title-group>
+                            <mat-card-title>File Upload</mat-card-title>
+                        </mat-card-title-group>
+                        <mat-card-content>
+                            <app-uploader #uploader></app-uploader>
+                        </mat-card-content>
+                    </mat-card>
+
+                    <div fxLayout="column" fxLayoutGap="16px" fxFlex="grow">
+                        <mat-card>
+                            <mat-card-title-group>
+                                <mat-card-title>
+                                    Image Upload
+                                    <button *ngIf="imgInput.files.length == 0;" mat-button (click)="imgInput.click()">
+                                        <mat-icon>image</mat-icon>
+                                        Choose Image
+                                    </button>
+                                </mat-card-title>
+                            </mat-card-title-group>
+                            <mat-card-content fxLayout="column" fxLayoutAlign=" center">
+                                <input hidden #imgInput type="file" accept="image/*" (change)="preview(imgInput.files);">
+                                <div *ngIf="imgURL">
+                                    <img [src]="imgURL" style="max-height: 50vh;max-width: 40vw;">
+                                </div>
+                                <div *ngIf="imgInput.files.length > 0;">
+                                    <button mat-button (click)="imgInput.click()">
+                                        <mat-icon>autorenew</mat-icon>
+                                        Change
+                                    </button>
+                                    <button mat-button (click)="imgInput.value = '';imgURL = '';">
+                                        <mat-icon>delete</mat-icon>
+                                        Remove
+                                    </button>
+                                </div>
+
+                            </mat-card-content>
+                        </mat-card>
+        
+                        <mat-card fxFlex="grow">
+                            <mat-card-title-group>
+                                <mat-card-title>
+                                    Links
+                                    <button *ngIf="entryFormGroup.controls['links'].value.length == 0" mat-button (click)="addControl('links')">
+                                        <mat-icon>note_add</mat-icon>
+                                        Add Link
+                                    </button>
+                                </mat-card-title>
+                            </mat-card-title-group>
+                            <mat-card-content formArrayName="links" fxLayout="column" fxLayoutGap="16px">
+                                <mat-card *ngFor="let group of links.controls; let i=index">
+                                    <mat-card-content [formGroupName]="i" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap.gt-xs="16px">
+                                        <mat-form-field fxFlex="grow">
+                                            <mat-label>Title</mat-label>
+                                            <input matInput formControlName="title" required>
+                                            <mat-error>Required</mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field fxFlex="grow">
+                                            <mat-label>URL</mat-label>
+                                            <input type="url" matInput formControlName="url" required>
+                                            <mat-error>Required</mat-error>
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                    <mat-card-actions>
+                                        <button mat-button (click)="links.removeAt(i)">
+                                            <mat-icon>delete</mat-icon>
+                                            Remove
+                                        </button>
+                                    </mat-card-actions>
+                                </mat-card>
+                            </mat-card-content>
+                            <mat-card-actions *ngIf="entryFormGroup.controls['links'].value.length > 0">
+                                <button mat-button (click)="addControl('links')">
+                                    <mat-icon>note_add</mat-icon>
+                                    Add Link
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+
+        <mat-divider></mat-divider>
+        <mat-card>
+            <mat-card-content>
+                <span class="mat-headline">Remarks</span>
+                <div>
+                    <mat-form-field fxFlex="grow">
+                        <mat-label>Remarks</mat-label>
+                        <textarea placeholder="e.g., ข้อมูลในเว็บภาคแปลภาษาผิด" matInput formControlName="remarks"></textarea>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" style="margin-bottom: 16px;">
+        <button mat-raised-button color="warn" fxFlex="grow" (click)="resetPrompt()">
+            <mat-icon>replay</mat-icon>
+            Reset
+        </button>
+        <button mat-raised-button color="primary" fxFlex="grow" (click)="checkForm()">
+            <mat-icon>done_all</mat-icon>
+            Submit
+        </button>
+    </div>
+</form>

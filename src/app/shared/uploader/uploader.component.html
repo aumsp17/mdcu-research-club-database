@@ -1,0 +1,54 @@
+<div class="dropzone" 
+     appDropzone
+     (hovered)="toggleHover($event)"
+     (dropped)="onDrop($event)"
+     [class.hovering]="isHovering">
+
+
+     <h3>File Drop Zone</h3>
+     <p>Drag and Drop files here</p>
+     <div class="file-label">
+         <button mat-raised-button (click)="fileInput.click()">Choose File</button>
+         <input hidden #fileInput type="file" multiple (change)="onDrop($event.target.files)">
+     </div>
+</div>
+
+<div *ngIf="files.length > 0">
+    <h3>Files</h3>
+    <mat-selection-list #filesSelect *ngIf="!upload; else uploadTasks">
+        <mat-list-option *ngFor="let file of files" [value]="file" selected>
+            <mat-icon mat-list-icon>
+                <ng-container [ngSwitch]="file.type.split('/')[0]">
+                    <div *ngSwitchCase="'text'">text_snippet</div>
+                    <div *ngSwitchCase="'audio'">audiotrack</div>
+                    <div *ngSwitchCase="'video'">video_label</div>
+                    <div *ngSwitchCase="'image'">image</div>
+                    <div *ngSwitchDefault>insert_drive_file</div>
+                </ng-container>
+            </mat-icon>
+            
+            <div mat-line style="overflow-wrap: break-word;">
+                {{ file.name }}
+            </div>
+            <div mat-line>
+                {{ parseFileSize(file.size) }}
+            </div>
+        </mat-list-option>
+    </mat-selection-list>
+
+    <ng-template #uploadTasks>
+        <mat-list-item *ngFor="let file of files">
+            <mat-icon mat-list-icon>
+                <ng-container [ngSwitch]="file.type.split('/')[0]">
+                    <div *ngSwitchCase="'text'">text_snippet</div>
+                    <div *ngSwitchCase="'audio'">audiotrack</div>
+                    <div *ngSwitchCase="'video'">video_label</div>
+                    <div *ngSwitchCase="'image'">image</div>
+                    <div *ngSwitchDefault>insert_drive_file</div>
+                </ng-container>
+            </mat-icon>
+            <div mat-line>{{ file.name }}</div>
+            <app-upload-task mat-line [entryID]="entryID" [file]="file" [controllable]="false"></app-upload-task>
+        </mat-list-item>
+    </ng-template>
+</div>

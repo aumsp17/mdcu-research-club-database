@@ -1,0 +1,14 @@
+<nav mat-tab-nav-bar>
+  <a mat-tab-link *ngFor="let link of links"
+      [active]="rla.isActive"
+      routerLinkActive #rla="routerLinkActive"
+      [routerLink]="link.link">
+      <mat-icon *ngIf="link.icon">{{ link.icon }}</mat-icon>
+      {{ link.label }}
+  </a>
+  <div style="flex: 1 1"></div>
+  <button mat-stroked-button (click)="auth.signOut();" style="height: 36px;align-self:center; margin-right: 16px;">Logout</button>
+</nav>
+<div style="margin: 3em" ngStyle.lt-md="margin: 16px">
+  <router-outlet></router-outlet>
+</div>
